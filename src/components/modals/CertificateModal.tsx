@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { CertificateEntity } from '../../types';
 import { MetrologyQrCode } from '../common/QrCodeGenerator';
+import { formatCapacity } from '../../utils/formatters';
 
 interface CertificateModalProps {
   certificate: CertificateEntity | null;
@@ -102,7 +103,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
               </div>
               <div className="flex justify-between py-2">
                 <span className="text-slate-500 font-medium">Capacity / Unit</span>
-                <span className="font-bold text-slate-900">{certificate.capacity} {certificate.unit}</span>
+                <span className="font-bold text-slate-900">{formatCapacity(certificate.capacity, certificate.unit)}</span>
               </div>
               <div className="flex justify-between py-2">
                 <span className="text-slate-500 font-medium">Registered Business</span>

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useMetrology } from '../../context/MetrologyContext';
 import { MetrologyQrCode } from '../common/QrCodeGenerator';
+import { formatCapacity } from '../../utils/formatters';
 
 export const PublicQrVerificationScreen: React.FC = () => {
   const {
@@ -208,7 +209,7 @@ export const PublicQrVerificationScreen: React.FC = () => {
                 </div>
                 <div className="p-3 bg-white rounded-2xl border border-slate-100">
                   <span className="text-slate-500 block text-[10px] uppercase font-bold">Capacity & Make</span>
-                  <span className="font-bold text-slate-900">{publicSearchResult.capacity} {publicSearchResult.unit} ({publicSearchResult.manufacturer})</span>
+                  <span className="font-bold text-slate-900">{formatCapacity(publicSearchResult.capacity, publicSearchResult.unit)} ({publicSearchResult.manufacturer})</span>
                 </div>
                 <div className="p-3 bg-white rounded-2xl border border-slate-100">
                   <span className="text-slate-500 block text-[10px] uppercase font-bold">Verified By</span>

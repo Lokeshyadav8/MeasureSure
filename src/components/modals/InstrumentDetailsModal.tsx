@@ -3,6 +3,7 @@ import { X, Send, Eye, ShieldCheck, MapPin, Calendar, Activity, AlertCircle } fr
 import { InstrumentEntity, CertificateEntity } from '../../types';
 import { InstrumentStatusBadge, RiskScoreBadge, ExpiryStatusBadge } from '../common/StatusBadge';
 import { MetrologyQrCode } from '../common/QrCodeGenerator';
+import { formatCapacity, formatTolerance } from '../../utils/formatters';
 
 interface InstrumentDetailsModalProps {
   instrument: InstrumentEntity | null;
@@ -73,11 +74,11 @@ export const InstrumentDetailsModal: React.FC<InstrumentDetailsModalProps> = ({
             </div>
             <div className="flex justify-between py-2">
               <span className="text-slate-500 font-medium">Capacity & Unit</span>
-              <span className="font-bold text-slate-900">{instrument.capacity} {instrument.unitOfMeasurement}</span>
+              <span className="font-bold text-slate-900">{formatCapacity(instrument.capacity, instrument.unitOfMeasurement)}</span>
             </div>
             <div className="flex justify-between py-2">
               <span className="text-slate-500 font-medium">Permissible Tolerance</span>
-              <span className="font-mono font-bold text-slate-900">±{(instrument.permissibleTolerance * 100).toFixed(2)}%</span>
+              <span className="font-mono font-bold text-slate-900">{formatTolerance(instrument.permissibleTolerance)}</span>
             </div>
             <div className="flex justify-between py-2">
               <span className="text-slate-500 font-medium">Operating Location</span>
