@@ -1,0 +1,325 @@
+import React, { useState, useEffect } from 'react';
+import { X, Scan, Sparkles, Loader2, Plus, Check } from 'lucide-react';
+import { useMetrology } from '../../context/MetrologyContext';
+
+interface RegisterInstrumentModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export const RegisterInstrumentModal: React.FC<RegisterInstrumentModalProps> = ({
+  isOpen,
+  onClose
+}) => {
+  const { registerInstrument, runAiOcrScan, ocrResult, isOcrScanning } = useMetrology();
+
+  const instrumentTypes = [
+    'Digital weighing scale',
+    'Platform scale',
+    'Weighbridge',
+    'Retail weighing machine',
+    'Petrol pump measuring instrument',
+    'Measuring meter',
+    'Length measuring instrument',
+    'Industrial measurement instrument',
+    'Laboratory precision balance'
+  ];
+
+  const categories = ['Commercial', 'Industrial', 'Retail', 'Laboratory', 'Petroleum'];
+
+  const [name, setName] = useState('');
+  const [selectedType, setSelectedType] = useState(instrumentTypes[0]);
+  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const [manufacturer, setManufacturer] = useState('');
+  const [modelNumber, setModelNumber] = useState('');
+  const [serialNumber, setSerialNumber] = useState('');
+  const [capacity, setCapacity] = useState('50');
+  const [unitOfMeasurement, setUnitOfMeasurement] = useState('kg');
+  const [location, setLocation] = useState('Apex Central Hub, Station 1');
+  const [tolerance, setTolerance] = useState('0.05');
+
+  // Auto-fill from AI OCR Scan
+  useEffect(() => {
+    if (ocrResult) {
+      setManufacturer(ocrResult.manufacturer || '');
+      setModelNumber(ocrResult.model || '');
+      setSerialNumber(ocrResult.serialNumber || '');
+      if (ocrResult.instrumentType) {
+        setSelectedType(ocrResult.instrumentType);
+      }
+      setCapacity(ocrResult.capacity?.replace(/[^0-9.]/g, '') || '50');
+      setUnitOfMeasurement(ocrResult.unit || 'kg');
+      setName(`${ocrResult.manufacturer} ${ocrResult.model}`);
+      setTolerance(String(ocrResult.permissibleTolerance || 0.05));
+    }
+  }, [ocrResult]);
+
+  if (!isOpen) return null;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const tolDouble = parseFloat(tolerance) || 0.05;
+
+    registerInstrument({
+      name: name.trim() || `${manufacturer || 'Instrument'} ${selectedType}`,
+      type: selectedType,
+      category: selectedCategory,
+      manufacturer: manufacturer.trim() || 'Mettler Toledo',
+      modelNumber: modelNumber.trim() || 'IND-500',
+      serialNumber: serialNumber.trim() || 'SN-' + Math.floor(10000 + Math.random() * 90000),
+      capacity: capacity.trim() || '50',
+      unitOfMeasurement: unitOfMeasurement.trim() || 'kg',
+      location: location.trim() || 'Apex Station 1',
+      permissibleTolerance: tolDouble
+    });
+
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
+      <div className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+        
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 bg-slate-900 text-white">
+          <div className="flex items-center gap-2">
+            <Plus className="w-5 h-5 text-cyan-400" />
+            <h3 className="text-base font-bold text-white tracking-tight">
+              Register New Measuring Instrument
+            </h3>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Scrollable Form Content */}
+        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-5">
+          
+          {/* AI OCR Scanner Banner */}
+          <div className="p-4 bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-2xl shadow-sm border border-slate-800 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-cyan-500/20 text-cyan-400 rounded-xl border border-cyan-500/30">
+                <Scan className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <h4 className="text-xs font-bold text-white tracking-tight">
+                    AI Nameplate OCR Scanner
+                  </h4>
+                  <span className="px-1.5 py-0.2 bg-cyan-400/20 text-cyan-300 text-[10px] font-extrabold rounded">
+                    GEMINI
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-300">
+                  Auto-extract serial number, make, model & accuracy class from nameplate
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => runAiOcrScan()}
+              disabled={isOcrScanning}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-cyan-500 text-slate-950 rounded-xl text-xs font-extrabold shadow-sm hover:bg-cyan-400 transition-all shrink-0 active:scale-95 disabled:opacity-50"
+            >
+              {isOcrScanning ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  Scanning...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-3.5 h-3.5" />
+                  Scan Specs
+                </>
+              )}
+            </button>
+          </div>
+
+          {/* Instrument Name */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-700">
+              Instrument Label / Name *
+            </label>
+            <input
+              type="text"
+              required
+              value={name}
+              onChange={e => setName(e.target.value)}
+              placeholder="e.g. Apex Central Truck Weighbridge"
+              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+            />
+          </div>
+
+          {/* Type Selector */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-700">
+              Instrument Category Type
+            </label>
+            <div className="flex flex-wrap gap-1.5">
+              {instrumentTypes.map(t => (
+                <button
+                  type="button"
+                  key={t}
+                  onClick={() => setSelectedType(t)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
+                    selectedType === t
+                      ? 'bg-cyan-600 text-white font-bold shadow-xs'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Category */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-700">
+              Operating Sector
+            </label>
+            <div className="flex flex-wrap gap-1.5">
+              {categories.map(c => (
+                <button
+                  type="button"
+                  key={c}
+                  onClick={() => setSelectedCategory(c)}
+                  className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                    selectedCategory === c
+                      ? 'bg-slate-900 text-white font-bold shadow-xs'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Manufacturer & Model Number */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-700">
+                Manufacturer (Make)
+              </label>
+              <input
+                type="text"
+                value={manufacturer}
+                onChange={e => setManufacturer(e.target.value)}
+                placeholder="e.g. Mettler Toledo / Avery"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-700">
+                Model Number
+              </label>
+              <input
+                type="text"
+                value={modelNumber}
+                onChange={e => setModelNumber(e.target.value)}
+                placeholder="e.g. XP-205 / BMS-HD"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+              />
+            </div>
+          </div>
+
+          {/* Serial Number */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-700">
+              Serial Number (S/N) *
+            </label>
+            <input
+              type="text"
+              value={serialNumber}
+              onChange={e => setSerialNumber(e.target.value)}
+              placeholder="e.g. SN-99214"
+              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-mono font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+
+          {/* Capacity & Unit */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-700">
+                Maximum Capacity
+              </label>
+              <input
+                type="text"
+                value={capacity}
+                onChange={e => setCapacity(e.target.value)}
+                placeholder="e.g. 60000 or 50"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-700">
+                Unit of Measurement
+              </label>
+              <input
+                type="text"
+                value={unitOfMeasurement}
+                onChange={e => setUnitOfMeasurement(e.target.value)}
+                placeholder="kg, g, L, Ton, m"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+              />
+            </div>
+          </div>
+
+          {/* Location & Tolerance */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-700">
+                Operating Site / Location
+              </label>
+              <input
+                type="text"
+                value={location}
+                onChange={e => setLocation(e.target.value)}
+                placeholder="e.g. Central Hub, Weigh Bay A"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-700">
+                Permissible Tolerance (%)
+              </label>
+              <input
+                type="text"
+                value={tolerance}
+                onChange={e => setTolerance(e.target.value)}
+                placeholder="0.05"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-mono font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+              />
+            </div>
+          </div>
+
+          {/* Footer Submit */}
+          <div className="pt-3 border-t border-slate-200 flex items-center justify-end gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl text-xs font-bold"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="inline-flex items-center gap-1.5 px-6 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl text-xs font-bold shadow-md transition-all active:scale-95"
+            >
+              <Check className="w-4 h-4" />
+              Register & Save to Registry
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  );
+};
