@@ -1,5 +1,5 @@
 import React from 'react';
-import { Play, Sparkles, RotateCcw, ShieldCheck, Scale, Award } from 'lucide-react';
+import { Play, Sparkles, RotateCcw, ShieldCheck, Scale, Award, Download } from 'lucide-react';
 import { useMetrology } from '../../context/MetrologyContext';
 import { UserRole } from '../../types';
 
@@ -64,6 +64,16 @@ export const HeaderBar: React.FC = () => {
 
             {/* Mobile Action Buttons */}
             <div className="flex items-center gap-1.5 sm:hidden">
+              <a
+                href="/api/download-apk"
+                download="LegalMetrology-Verification.apk"
+                title="Download APK"
+                className="inline-flex items-center gap-1 px-2 py-1.5 bg-cyan-50 text-cyan-700 border border-cyan-200 rounded-lg text-xs font-bold whitespace-nowrap active:scale-95"
+              >
+                <Download className="w-3.5 h-3.5 shrink-0" />
+                <span>APK</span>
+              </a>
+
               <button
                 onClick={() => runDemoFlow()}
                 className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg text-xs font-bold shadow-xs whitespace-nowrap active:scale-95"
@@ -85,8 +95,18 @@ export const HeaderBar: React.FC = () => {
           {/* Desktop Right Bar: 1-Click Demo, Reset Data, Role Selector & User Badge */}
           <div className="flex flex-wrap items-center justify-between sm:justify-end gap-2">
             
-            {/* Quick Demo & Reset Buttons */}
+            {/* Quick Demo, APK Download & Reset Buttons */}
             <div className="hidden sm:flex items-center gap-2">
+              <a
+                href="/api/download-apk"
+                download="LegalMetrology-Verification.apk"
+                title="Download Signed Android APK (.apk)"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-cyan-50 hover:bg-cyan-100 text-cyan-800 border border-cyan-200/80 rounded-xl text-xs font-bold transition-all active:scale-95 whitespace-nowrap"
+              >
+                <Download className="w-3.5 h-3.5 text-cyan-600 shrink-0" />
+                APK
+              </a>
+
               <button
                 onClick={() => runDemoFlow()}
                 title="Run end-to-end statutory verification workflow"

@@ -57,6 +57,30 @@ app.get("/api/health", (_req, res) => {
   });
 });
 
+// Direct APK Download Endpoint for Android Devices
+app.get("/api/download-apk", (_req, res) => {
+  const possiblePaths = [
+    path.join(process.cwd(), "APK_DOWNLOAD", "app-debug.apk"),
+    path.join(process.cwd(), ".build-outputs", "app-debug.apk")
+  ];
+
+  let apkPath = "";
+  for (const p of possiblePaths) {
+    if (require("fs").existsSync(p)) {
+      apkPath = p;
+      break;
+    }
+  }
+
+  if (apkPath) {
+    res.setHeader("Content-Type", "application/vnd.android.package-archive");
+    res.setHeader("Content-Disposition", 'attachment; filename="LegalMetrology-Verification.apk"');
+    return res.sendFile(apkPath);
+  }
+
+  return res.status(404).json({ error: "APK build not found" });
+});
+
 // AI Anomaly & Drift Analysis Endpoint
 app.post("/api/ai/analyze-inspection", async (req, res) => {
   try {
