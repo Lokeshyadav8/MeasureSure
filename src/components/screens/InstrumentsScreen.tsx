@@ -193,50 +193,50 @@ export const InstrumentsScreen: React.FC = () => {
             return (
               <div
                 key={inst.id}
-                className="bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-cyan-400 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group"
+                className="bg-white rounded-3xl border border-slate-300 shadow-sm hover:border-cyan-500 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group"
               >
                 {/* Card Header */}
                 <div className="p-4 sm:p-5 pb-3 space-y-3">
                   
                   {/* Top ID & Risk Badge in clean horizontal bar */}
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-mono font-bold text-[11px] text-cyan-800 bg-cyan-50 px-2.5 py-1 rounded-lg border border-cyan-200 whitespace-nowrap shrink-0">
+                    <span className="font-mono font-black text-xs text-cyan-950 bg-cyan-100 px-3 py-1 rounded-lg border border-cyan-300 whitespace-nowrap shrink-0">
                       {inst.instrumentId}
                     </span>
                     <RiskScoreBadge riskLevel={inst.riskScore} className="shrink-0" />
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-extrabold text-slate-900 group-hover:text-cyan-700 transition-colors line-clamp-1">
+                    <h3 className="text-sm sm:text-base font-black text-slate-950 group-hover:text-cyan-800 transition-colors line-clamp-1">
                       {inst.name}
                     </h3>
-                    <p className="text-xs text-slate-600 mt-0.5 truncate">
+                    <p className="text-xs text-slate-700 font-bold mt-0.5 truncate">
                       {inst.manufacturer} • {inst.modelNumber}
                     </p>
                   </div>
 
                   {/* Status & Expiry */}
-                  <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                  <div className="flex flex-wrap items-center gap-2 pt-0.5">
                     <InstrumentStatusBadge status={inst.status} />
                     <ExpiryStatusBadge validUntilDate={inst.nextVerificationDate} />
                   </div>
 
                   {/* Details Spec Box */}
-                  <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-xs space-y-1.5">
+                  <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-slate-600">Capacity:</span>
-                      <span className="font-bold text-slate-900">{formatCapacity(inst.capacity, inst.unitOfMeasurement)}</span>
+                      <span className="text-slate-800 font-bold">Capacity:</span>
+                      <span className="font-black text-slate-950 text-xs sm:text-sm">{formatCapacity(inst.capacity, inst.unitOfMeasurement)}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-slate-600">Serial No:</span>
-                      <span className="font-mono text-slate-700 truncate max-w-[150px]">{inst.serialNumber}</span>
+                      <span className="text-slate-800 font-bold">Serial No:</span>
+                      <span className="font-mono font-bold text-slate-900 truncate max-w-[170px]">{inst.serialNumber}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-slate-600">Tolerance:</span>
-                      <span className="font-mono text-slate-700">{formatTolerance(inst.permissibleTolerance)}</span>
+                      <span className="text-slate-800 font-bold">Tolerance:</span>
+                      <span className="font-mono font-black text-slate-950">{formatTolerance(inst.permissibleTolerance)}</span>
                     </div>
-                    <div className="flex items-center gap-1 text-[11px] text-slate-600 pt-1 border-t border-slate-200/60">
-                      <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                    <div className="flex items-center gap-1.5 text-xs text-slate-800 font-semibold pt-1.5 border-t border-slate-200">
+                      <MapPin className="w-3.5 h-3.5 text-slate-700 shrink-0" />
                       <span className="truncate">{inst.location}</span>
                     </div>
                   </div>
@@ -244,25 +244,25 @@ export const InstrumentsScreen: React.FC = () => {
                 </div>
 
                 {/* Card Actions Footer */}
-                <div className="px-4 sm:px-5 py-3 bg-slate-50/70 border-t border-slate-100 flex items-center justify-between gap-2">
+                <div className="px-4 sm:px-5 py-3 bg-slate-100/90 border-t border-slate-200 flex items-center justify-between gap-2">
                   <button
                     onClick={() => setSelectedInstrument(inst)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 rounded-xl text-xs font-bold transition-colors whitespace-nowrap shadow-2xs"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white text-slate-900 border border-slate-300 hover:bg-slate-50 rounded-xl text-xs font-bold transition-colors whitespace-nowrap shadow-xs"
                   >
-                    <Eye className="w-3.5 h-3.5" />
+                    <Eye className="w-3.5 h-3.5 text-slate-700" />
                     Details
                   </button>
 
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-2">
                     {cert && (
                       <button
                         onClick={() => {
                           setSelectedCertificate(cert);
                           setShowCertificateModal(true);
                         }}
-                        className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 rounded-xl text-xs font-bold transition-colors whitespace-nowrap"
+                        className="inline-flex items-center gap-1.5 px-3 py-2 bg-emerald-100 text-emerald-950 border border-emerald-300 hover:bg-emerald-200 rounded-xl text-xs font-black transition-colors whitespace-nowrap"
                       >
-                        <Award className="w-3.5 h-3.5" />
+                        <Award className="w-3.5 h-3.5 text-emerald-700" />
                         Certificate
                       </button>
                     )}
@@ -270,7 +270,7 @@ export const InstrumentsScreen: React.FC = () => {
                     {(inst.status === 'DRAFT' || inst.status === 'FAILED') && (
                       <button
                         onClick={() => requestVerification(inst)}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl text-xs font-bold shadow-xs transition-all active:scale-95 whitespace-nowrap"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl text-xs font-black shadow-xs transition-all active:scale-95 whitespace-nowrap"
                       >
                         <Send className="w-3.5 h-3.5" />
                         Verify

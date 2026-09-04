@@ -20,7 +20,7 @@ export const MetricStatCard: React.FC<MetricStatCardProps> = ({
   icon: Icon,
   accentColor,
   bgColor = 'bg-white',
-  borderColor = 'border-slate-200/80',
+  borderColor = 'border-slate-300',
   onClick,
   className = ''
 }) => {
@@ -28,21 +28,21 @@ export const MetricStatCard: React.FC<MetricStatCardProps> = ({
     <div
       onClick={onClick}
       className={`p-4 rounded-2xl border ${bgColor} ${borderColor} shadow-xs transition-all ${
-        onClick ? 'cursor-pointer hover:border-slate-300 hover:shadow-sm' : ''
+        onClick ? 'cursor-pointer hover:border-slate-400 hover:shadow-sm' : ''
       } ${className}`}
     >
       <div className="flex items-center justify-between">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600">
+        <span className="text-xs font-black uppercase tracking-wider text-slate-800">
           {title}
         </span>
         <div className={`p-2 rounded-xl ${accentColor}`}>
           <Icon className="w-4 h-4" />
         </div>
       </div>
-      <div className="mt-2 text-2xl font-extrabold text-slate-900 tracking-tight">
+      <div className="mt-2 text-2xl font-black text-slate-950 tracking-tight">
         {value}
       </div>
-      <p className="mt-0.5 text-xs text-slate-600 font-medium">
+      <p className="mt-0.5 text-xs text-slate-700 font-bold">
         {subtitle}
       </p>
     </div>

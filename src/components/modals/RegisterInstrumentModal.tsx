@@ -142,7 +142,7 @@ export const RegisterInstrumentModal: React.FC<RegisterInstrumentModalProps> = (
 
           {/* Instrument Name */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-700">
+            <label className="text-xs font-black text-slate-950">
               Instrument Label / Name *
             </label>
             <input
@@ -150,26 +150,26 @@ export const RegisterInstrumentModal: React.FC<RegisterInstrumentModalProps> = (
               required
               value={name}
               onChange={e => setName(e.target.value)}
-              placeholder="e.g. Apex Central Truck Weighbridge"
-              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+              placeholder="Instrument Name / Label (e.g. Apex Central Truck Weighbridge)"
+              className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-bold text-slate-950 placeholder:text-slate-600 placeholder:font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all"
             />
           </div>
 
           {/* Type Selector */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-700">
-              Instrument Category Type
+            <label className="text-xs font-black text-slate-950">
+              Instrument Type
             </label>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {instrumentTypes.map(t => (
                 <button
                   type="button"
                   key={t}
                   onClick={() => setSelectedType(t)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
+                  className={`px-3 py-1.5 rounded-xl text-xs transition-all ${
                     selectedType === t
-                      ? 'bg-cyan-600 text-white font-bold shadow-xs'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                      ? 'bg-slate-950 text-white font-black border-2 border-slate-950 shadow-xs'
+                      : 'bg-slate-100 text-slate-950 font-extrabold border-2 border-slate-300 hover:bg-slate-200'
                   }`}
                 >
                   {t}
@@ -180,19 +180,19 @@ export const RegisterInstrumentModal: React.FC<RegisterInstrumentModalProps> = (
 
           {/* Category */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-700">
-              Operating Sector
+            <label className="text-xs font-black text-slate-950">
+              Category / Operating Sector
             </label>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {categories.map(c => (
                 <button
                   type="button"
                   key={c}
                   onClick={() => setSelectedCategory(c)}
-                  className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                  className={`px-3.5 py-1.5 rounded-xl text-xs transition-all ${
                     selectedCategory === c
-                      ? 'bg-slate-900 text-white font-bold shadow-xs'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                      ? 'bg-cyan-700 text-white font-black border-2 border-cyan-800 shadow-xs'
+                      : 'bg-slate-100 text-slate-950 font-extrabold border-2 border-slate-300 hover:bg-slate-200'
                   }`}
                 >
                   {c}
@@ -204,69 +204,69 @@ export const RegisterInstrumentModal: React.FC<RegisterInstrumentModalProps> = (
           {/* Manufacturer & Model Number */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">
+              <label className="text-xs font-black text-slate-950">
                 Manufacturer (Make)
               </label>
               <input
                 type="text"
                 value={manufacturer}
                 onChange={e => setManufacturer(e.target.value)}
-                placeholder="e.g. Mettler Toledo / Avery"
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+                placeholder="Manufacturer (e.g. Mettler Toledo / Avery)"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-bold text-slate-950 placeholder:text-slate-600 placeholder:font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">
+              <label className="text-xs font-black text-slate-950">
                 Model Number
               </label>
               <input
                 type="text"
                 value={modelNumber}
                 onChange={e => setModelNumber(e.target.value)}
-                placeholder="e.g. XP-205 / BMS-HD"
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+                placeholder="Model Number (e.g. XP-205 / BMS-HD)"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-bold text-slate-950 placeholder:text-slate-600 placeholder:font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
               />
             </div>
           </div>
 
           {/* Serial Number */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-700">
+            <label className="text-xs font-black text-slate-950">
               Serial Number (S/N) *
             </label>
             <input
               type="text"
               value={serialNumber}
               onChange={e => setSerialNumber(e.target.value)}
-              placeholder="e.g. SN-99214"
-              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-mono font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+              placeholder="Serial Number (S/N) (e.g. SN-99214)"
+              className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-mono font-bold text-slate-950 placeholder:text-slate-600 placeholder:font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
             />
           </div>
 
           {/* Capacity & Unit */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">
-                Maximum Capacity
+              <label className="text-xs font-black text-slate-950">
+                Capacity
               </label>
               <input
                 type="text"
                 value={capacity}
                 onChange={e => setCapacity(e.target.value)}
-                placeholder="e.g. 60000 or 50"
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+                placeholder="Capacity (e.g. 30 or 60000)"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-bold text-slate-950 placeholder:text-slate-600 placeholder:font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">
-                Unit of Measurement
+              <label className="text-xs font-black text-slate-950">
+                Unit (kg, g, L, Ton)
               </label>
               <input
                 type="text"
                 value={unitOfMeasurement}
                 onChange={e => setUnitOfMeasurement(e.target.value)}
-                placeholder="kg, g, L, Ton, m"
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+                placeholder="Unit (kg, g, L, Ton, m)"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-bold text-slate-950 placeholder:text-slate-600 placeholder:font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
               />
             </div>
           </div>
@@ -274,27 +274,27 @@ export const RegisterInstrumentModal: React.FC<RegisterInstrumentModalProps> = (
           {/* Location & Tolerance */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">
+              <label className="text-xs font-black text-slate-950">
                 Operating Site / Location
               </label>
               <input
                 type="text"
                 value={location}
                 onChange={e => setLocation(e.target.value)}
-                placeholder="e.g. Central Hub, Weigh Bay A"
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+                placeholder="Location (e.g. Central Hub, Weigh Bay A)"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-bold text-slate-950 placeholder:text-slate-600 placeholder:font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">
+              <label className="text-xs font-black text-slate-950">
                 Permissible Tolerance (%)
               </label>
               <input
                 type="text"
                 value={tolerance}
                 onChange={e => setTolerance(e.target.value)}
-                placeholder="0.05"
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-mono font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+                placeholder="Tolerance % (e.g. 0.05)"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-mono font-bold text-slate-950 placeholder:text-slate-600 placeholder:font-medium focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
               />
             </div>
           </div>

@@ -58,7 +58,7 @@ export const DashboardScreen: React.FC = () => {
     <div className="space-y-6">
       
       {/* Navigation Tabs Bar (Desktop & Tablet) */}
-      <div className="bg-white rounded-3xl p-1.5 border border-slate-200/80 shadow-xs flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+      <div className="bg-white rounded-3xl p-1.5 border border-slate-300 shadow-xs flex items-center gap-1.5 overflow-x-auto no-scrollbar">
         {tabs.map(tab => {
           const isActive = selectedTab === tab.id;
 
@@ -66,13 +66,13 @@ export const DashboardScreen: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setSelectedTab(tab.id)}
-              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-extrabold transition-all whitespace-nowrap shrink-0 ${
+              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-black transition-all whitespace-nowrap shrink-0 ${
                 isActive
-                  ? 'bg-slate-900 text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  ? 'bg-slate-950 text-white shadow-sm'
+                  : 'text-slate-800 hover:text-black hover:bg-slate-100'
               }`}
             >
-              <span className={isActive ? 'text-cyan-400 shrink-0' : 'text-slate-400 shrink-0'}>
+              <span className={isActive ? 'text-cyan-400 shrink-0' : 'text-slate-600 shrink-0'}>
                 {tab.icon}
               </span>
               <span>{tab.label}</span>
@@ -80,8 +80,8 @@ export const DashboardScreen: React.FC = () => {
                 <span
                   className={`px-2 py-0.5 rounded-full text-[10px] font-black shrink-0 ${
                     isActive
-                      ? 'bg-cyan-500/20 text-cyan-300'
-                      : 'bg-slate-100 text-slate-600'
+                      ? 'bg-cyan-500/30 text-cyan-300'
+                      : 'bg-slate-200 text-slate-900'
                   }`}
                 >
                   {tab.count}
@@ -93,7 +93,7 @@ export const DashboardScreen: React.FC = () => {
       </div>
 
       {/* Main Tab Screen Content */}
-      <div className="animate-in fade-in duration-200 pb-16 sm:pb-0">
+      <div className="animate-in fade-in duration-200 pb-20 sm:pb-0">
         {selectedTab === 'INSTRUMENTS' && <InstrumentsScreen />}
         {selectedTab === 'REQUESTS' && <VerificationRequestsScreen />}
         {selectedTab === 'ADMIN' && <AdminAuthorityScreen />}
@@ -101,8 +101,8 @@ export const DashboardScreen: React.FC = () => {
       </div>
 
       {/* Mobile Bottom Navigation Bar (App Bar with safe area) */}
-      <div className="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg sm:hidden pb-[env(safe-area-inset-bottom,0px)]">
-        <div className="grid grid-cols-4 px-2 py-1.5">
+      <div className="fixed bottom-0 inset-x-0 z-40 bg-white/98 backdrop-blur-md border-t border-slate-300 shadow-xl sm:hidden pb-[max(env(safe-area-inset-bottom,0px),0.5rem)]">
+        <div className="grid grid-cols-4 px-2 py-2">
           {tabs.map(tab => {
             const isActive = selectedTab === tab.id;
             const shortLabel = tab.id === 'INSTRUMENTS' ? 'Devices' : tab.id === 'REQUESTS' ? 'Requests' : tab.id === 'ADMIN' ? 'Oversight' : 'QR Verify';
@@ -112,15 +112,15 @@ export const DashboardScreen: React.FC = () => {
                 key={tab.id}
                 onClick={() => setSelectedTab(tab.id)}
                 className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl transition-all relative ${
-                  isActive ? 'text-cyan-700 font-extrabold' : 'text-slate-500 font-medium'
+                  isActive ? 'text-cyan-950 font-black' : 'text-slate-700 font-bold'
                 }`}
               >
-                <div className={`p-1 rounded-lg ${isActive ? 'bg-cyan-50 text-cyan-700' : 'text-slate-500'}`}>
+                <div className={`p-1.5 rounded-lg ${isActive ? 'bg-cyan-100 text-cyan-900' : 'text-slate-600'}`}>
                   {tab.icon}
                 </div>
-                <span className="text-[10px] mt-0.5 tracking-tight truncate max-w-full">{shortLabel}</span>
+                <span className="text-[11px] mt-0.5 tracking-tight truncate max-w-full font-bold">{shortLabel}</span>
                 {tab.count !== undefined && tab.count > 0 && (
-                  <span className="absolute top-1 right-3 w-4 h-4 bg-cyan-600 text-white rounded-full text-[9px] font-black flex items-center justify-center shadow-xs">
+                  <span className="absolute top-1 right-2.5 w-4 h-4 bg-cyan-600 text-white rounded-full text-[9px] font-black flex items-center justify-center shadow-xs">
                     {tab.count}
                   </span>
                 )}
